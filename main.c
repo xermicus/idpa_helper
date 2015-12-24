@@ -98,7 +98,7 @@ void init_subst_table(void) {
 
 //	srand((unsigned) time(&t));
 
-	for (i = c_min; i < c_max; i++) {
+	for (i = c_min; i <= c_max; i++) {
 		int sub_val = 0;
 		int hit = 0;
 		int j = 0;
@@ -156,7 +156,7 @@ int main(int argc, char *argv[])
 	
 	putchar('\n');
 
-	for (i = c_min; i < c_max; i++) {
+	for (i = c_min; i <= c_max; i++) {
 		printf("%c %i\n", subst_table[(int) i], count_table[(int) i]);
 	}
 
