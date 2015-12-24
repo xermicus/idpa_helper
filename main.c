@@ -5,6 +5,10 @@
 #include <string.h>
 
 char subst_table[256];
+char count_table[256];
+int c_min = 'a';
+int c_max = 'z';
+
 
 int eval_args(int argc, char *argv[], int *dflag, int *eflag, char **ival, char **oval, int *pflag, char **tval, int *vflag)
 {
@@ -75,9 +79,11 @@ int gen_rand(unsigned int *seed, int min, int max)
 	return min + (value % length);
 }
 
+
 void init_subst_table(void) {
 	int i;
 	unsigned int t;
+//	time_t t_;
 	int c_min = 'a';
 	int c_max = 'z';
 
@@ -85,6 +91,11 @@ void init_subst_table(void) {
 	for (i = 0; i < sizeof(subst_table) - 1; i++) {
 		subst_table[i] = i;
 	}
+
+	for (i = 0; i < sizeof(count_table) - 1; i++) {
+		count_table[i] = 0;
+	}
+
 //	srand((unsigned) time(&t));
 
 	for (i = c_min; i < c_max; i++) {
@@ -94,20 +105,28 @@ void init_subst_table(void) {
 		do {
 			sub_val = gen_rand(&t, c_min, c_max);
 			hit = 0;
-			for (j = c_min; j < c_max; j++) {
+			for (j = c_min; j < subst_table[i]; j++) {
 				if (sub_val == subst_table[j]) {
 					hit = 1;
 				}
 			}
 		} while(hit);
 
-		subst_table[i] = gen_rand(&t, c_min, c_max);//subst_table[i] = sub_val;
+		subst_table[i] = sub_val;
 	}
 }
+
 
 char crypt(char c) {
 	return subst_table[(int) c];
 }
+
+
+int count(char c) {
+	return count_table[(int) c]++;
+}
+
+
 
 int main(int argc, char *argv[])
 {
@@ -131,6 +150,14 @@ int main(int argc, char *argv[])
 		i = get_input();
 		c = crypt(i);
 		putchar	(c);
+		count(i);
+			
+	}
+	
+	putchar('\n');
+
+	for (i = c_min; i < c_max; i++) {
+		printf("%c %i\n", subst_table[(int) i], count_table[(int) i]);
 	}
 
 	return 0;
