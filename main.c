@@ -19,7 +19,7 @@ char subst_table[256];
 char count_table[256];
 int c_min = 'a';
 int c_max = 'z';
-
+FILE *file_table;
 
 int eval_args(int argc, char *argv[], int *dflag, int *eflag, char **ival, char **oval, int *pflag, char **tval, int *vflag)
 {
@@ -100,14 +100,23 @@ void init_count_table() {
 }
 
 
+void clear_subst_table() {
+        int i;
+	        for (i = 0; i < sizeof(subst_table) - 1; i++) {
+	                subst_table[i] = i;
+        }
+}
+
+
 void init_subst_table() {
 	int i;
 	unsigned int t;
 
 	// Initialize empty default table without encryption
-	for (i = 0; i < sizeof(subst_table) - 1; i++) {
+	/*for (i = 0; i < sizeof(subst_table) - 1; i++) {
 		subst_table[i] = i;
-	}
+	}*/
+	clear_subst_table();
 
 
 	for (i = c_min; i <= c_max; i++) {
@@ -130,7 +139,15 @@ void init_subst_table() {
 
 
 void read_subst_table() {
-		
+	clear_subst_table();
+
+	char c;
+	file_table = fopen(tval, "r");
+	while (c != EOF) {
+		subst_table[(int) fgetc(file_table)] = fgetc(file_table);
+		c = fgetc(file_table);
+	}
+	fclose(file_table);
 }
 
 
