@@ -112,12 +112,7 @@ void init_subst_table() {
 	int i;
 	unsigned int t;
 
-	// Initialize empty default table without encryption
-	/*for (i = 0; i < sizeof(subst_table) - 1; i++) {
-		subst_table[i] = i;
-	}*/
 	clear_subst_table();
-
 
 	for (i = c_min; i <= c_max; i++) {
 		int sub_val = 0;
@@ -167,13 +162,14 @@ void process() {
 	if(eflag) {
 		while (i != '\n') {
 			i = get_input();
+			if (i >= 'A' && i <= 'Z' ) {
+				i += 32;
+			}
 			c = crypt(i);
 			putchar (c);
 			count(i);
         	}	
 	}
-
-        putchar('\n');
 
         if(pflag && eflag) {
 		for (i = c_min; i <= c_max; i++) {
