@@ -92,20 +92,23 @@ int gen_rand(unsigned int *seed, int min, int max)
 }
 
 
-void init_subst_table(void) {
+void init_count_table() {
+	int i;
+	for (i = 0; i < sizeof(count_table) - 1; i++) {
+		 count_table[i] = 0;
+	}
+}
+
+
+void init_subst_table() {
 	int i;
 	unsigned int t;
-	int c_min = 'a';
-	int c_max = 'z';
 
 	// Initialize empty default table without encryption
 	for (i = 0; i < sizeof(subst_table) - 1; i++) {
 		subst_table[i] = i;
 	}
 
-	for (i = 0; i < sizeof(count_table) - 1; i++) {
-		count_table[i] = 0;
-	}
 
 	for (i = c_min; i <= c_max; i++) {
 		int sub_val = 0;
@@ -123,6 +126,11 @@ void init_subst_table(void) {
 
 		subst_table[i] = sub_val;
 	}
+}
+
+
+void read_subst_table() {
+		
 }
 
 
@@ -147,15 +155,6 @@ void process() {
 			count(i);
         	}	
 	}
-	else if(dflag && tval) {
-		// read decrypt table
-		
-
-		// decrypt
-
-	}
-	
-
 
         putchar('\n');
 
@@ -167,8 +166,6 @@ void process() {
 	else if (pflag) {
 		while (i != '\n') {
 			i = get_input();
-			//c = crypt(i);
-			//putchar (c);
 			count(i);
 		}
 		for (i = c_min; i <= c_max; i++) {
@@ -178,11 +175,25 @@ void process() {
 }
 
 
+void init() {
+	if (tval) {
+                read_subst_table();
+	}
+	else {
+		init_subst_table();
+        }
+
+	if (pflag) {
+		init_count_table();
+	}
+}
+
+
 int main(int argc, char *argv[])
 {
 	eval_args(argc, argv, &dflag, &eflag, &ival, &oval, &pflag, &tval, &vflag);
 
-	init_subst_table(); // Init substitution table
+	init();
 
 	process();
 
