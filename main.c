@@ -4,6 +4,17 @@
 #include <ctype.h>
 #include <string.h>
 
+
+// Options
+int dflag = 0;
+int eflag = 0;
+char *ival = NULL;
+char *oval = NULL;
+int pflag = 0;
+char *tval = NULL;
+int vflag = 0;
+
+// Global
 char subst_table[256];
 char count_table[256];
 int c_min = 'a';
@@ -72,6 +83,7 @@ char get_input(){
 	return (char) getchar();
 }
 
+
 int gen_rand(unsigned int *seed, int min, int max)
 {
 	int value = rand_r(seed);
@@ -83,7 +95,6 @@ int gen_rand(unsigned int *seed, int min, int max)
 void init_subst_table(void) {
 	int i;
 	unsigned int t;
-//	time_t t_;
 	int c_min = 'a';
 	int c_max = 'z';
 
@@ -95,8 +106,6 @@ void init_subst_table(void) {
 	for (i = 0; i < sizeof(count_table) - 1; i++) {
 		count_table[i] = 0;
 	}
-
-//	srand((unsigned) time(&t));
 
 	for (i = c_min; i <= c_max; i++) {
 		int sub_val = 0;
@@ -127,38 +136,55 @@ int count(char c) {
 }
 
 
+void process() {
+	char i;
+	char c;
+	if(eflag) {
+		while (i != '\n') {
+			i = get_input();
+			c = crypt(i);
+			putchar (c);
+			count(i);
+        	}	
+	}
+	else if(dflag && tval) {
+		// read decrypt table
+		
+
+		// decrypt
+
+	}
+	
+
+
+        putchar('\n');
+
+        if(pflag && eflag) {
+		for (i = c_min; i <= c_max; i++) {
+	        	printf("%c %i\n", subst_table[(int) i], count_table[(int) i]);
+        	}	
+	}
+	else if (pflag) {
+		while (i != '\n') {
+			i = get_input();
+			//c = crypt(i);
+			//putchar (c);
+			count(i);
+		}
+		for (i = c_min; i <= c_max; i++) {
+		        printf("%c %i\n", i, count_table[(int) i]);
+		}
+	}
+}
+
 
 int main(int argc, char *argv[])
 {
-        int dflag = 0;
-        int eflag = 0;
-        char *ival = NULL;
-        char *oval = NULL;
-        int pflag = 0;
-        char *tval = NULL;
-        int vflag = 0;	
 	eval_args(argc, argv, &dflag, &eflag, &ival, &oval, &pflag, &tval, &vflag);
-
-//        printf ("dflag = %d\neflag = %d\nivalue = %s\novalue = %s\npflag = %d\ntvalue = %s\nvflag = %    d\n", dflag, eflag, ival, oval, pflag, tval, vflag);
 
 	init_subst_table(); // Init substitution table
 
-	char i = 0;
-	char c;
-	while (i != '\n')
-	{
-		i = get_input();
-		c = crypt(i);
-		putchar	(c);
-		count(i);
-			
-	}
-	
-	putchar('\n');
-
-	for (i = c_min; i <= c_max; i++) {
-		printf("%c %i\n", subst_table[(int) i], count_table[(int) i]);
-	}
+	process();
 
 	return 0;
 } 
