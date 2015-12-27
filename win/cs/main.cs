@@ -80,7 +80,6 @@ class Program
 			}
 			
 			sub_table[i] = c_final;
-			//Console.Write(sub_table[i]);
 		}
 	}
 
@@ -118,15 +117,24 @@ class Program
 
 	void crypt()
 	{
-		//string input = Console.ReadLine();
-
 	        if (System.IO.File.Exists(ival))
 		{
 			string input = System.IO.File.ReadAllText(@ival);
 
 			for (int i = 0; i < input.Length; i++)
 			{
-				Console.Write(sub_table[(int) input[i]]);
+				if (System.IO.File.Exists(oval))
+				{
+					System.IO.File.AppendAllText(@oval, sub_table[(int) input[i]].ToString());
+				}
+				else if (oval != null)
+				{
+					System.IO.File.WriteAllText(@oval, sub_table[(int) input[i]].ToString());
+				}
+				else
+				{
+					Console.Write(sub_table[(int) input[i]]);
+				}
 			}
 		}
 		else
@@ -159,10 +167,11 @@ class Program
 		
 		if (program.cflag)
 		{
+			if (System.IO.File.Exists(program.oval))
+			{
+				System.IO.File.Delete(program.oval);
+			}
 			program.crypt();
 		}
-
-		//Console.WriteLine("cflag: {0}, pflag: {1}, tval: {2}", program.cflag, program.pflag, program.tval);
-
 	}
 }
