@@ -6,6 +6,8 @@ class Program
 	bool cflag = false;
 	bool pflag = false;
 	string tval = null;
+	string oval = null;
+	string ival = null;
 	
 	char[] sub_table;
 	char[] count_table;
@@ -36,6 +38,14 @@ class Program
 					try { this.tval = args[i+1]; }
 					catch { write_help(); }
 					break;	
+				case "-i":
+					try { this.ival = args[i+1]; }
+					catch { write_help(); }
+					break;
+				case "-o":
+					try { this.oval = args[i+1]; }
+					catch { write_help(); }
+					break;
 				default:
 					break;
 			}
@@ -106,9 +116,24 @@ class Program
 	}
 
 
-	void process()
+	void crypt()
 	{
-			
+		//string input = Console.ReadLine();
+
+	        if (System.IO.File.Exists(ival))
+		{
+			string input = System.IO.File.ReadAllText(@ival);
+
+			for (int i = 0; i < input.Length; i++)
+			{
+				Console.Write(sub_table[(int) input[i]]);			
+			}
+		}
+		else
+		{
+			Console.WriteLine("File '" + ival + "' not found. Exiting now...");
+			Environment.Exit(0);
+		}
 	}
 
 
@@ -130,6 +155,11 @@ class Program
 		else
 		{
 			program.read_sub_table();
+		}
+		
+		if (program.cflag)
+		{
+			program.crypt();
 		}
 
 		//Console.WriteLine("cflag: {0}, pflag: {1}, tval: {2}", program.cflag, program.pflag, program.tval);
