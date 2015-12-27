@@ -200,7 +200,7 @@ class Program
 			program.read_sub_table();
 		}
 		
-		if (program.cflag && program.pflag)
+		if (program.cflag)
 		{
 			if (System.IO.File.Exists(program.oval))
 			{
