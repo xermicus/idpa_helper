@@ -49,15 +49,13 @@ class Program
 		for (int i = 0; i < sub_table.Length; i++)
 		{
 			char c_final = (char)i;
-			if (i >= c_min && i <= c_max)
+			if (i >= c_min && i < c_max)
 			{
-				//c_final = (char)rnd.Next((int)c_min, (int)c_max);
-				
-				bool hit = false;
+				bool hit = false;	
 				do
 				{
 					c_final = (char)rnd.Next((int)c_min, (int)c_max);
-
+					hit = false;
 					for (int j = (int) c_min; j < (int) i; j++)
 					{
 						if (c_final == sub_table[j])
