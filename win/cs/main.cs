@@ -90,7 +90,7 @@ class Program
 
 		for (int i = 0; i < count_table.Length; i++)
 		{
-			count_table[i] = (char)i;
+			count_table[i] = (char)0;
 		}
 	}
 
@@ -135,11 +135,46 @@ class Program
 				{
 					Console.Write(sub_table[(int) input[i]]);
 				}
+
+				if (pflag)
+				{
+					count_table[(int)sub_table[(int) input[i]]]++;
+				}
 			}
 		}
 		else
 		{
 			Console.WriteLine("File '" + ival + "' not found. Exiting now...");
+			Environment.Exit(0);
+		}
+
+		if (pflag)
+		{
+			for (int i = (int)c_min; i<=(int)c_max; i++)
+			{
+				Console.WriteLine((char)sub_table[i] + " " + (int)count_table[i]);
+			}
+		}
+	}
+
+
+	void count()
+	{
+		if (System.IO.File.Exists(ival))
+                {
+	                string input = System.IO.File.ReadAllText(@ival);
+			for (int i = 0; i < input.Length; i++)
+			{
+				count_table[(int)input[i]]++;
+			}
+			for (int i = (int)c_min; i<=(int)c_max; i++)
+			{
+				Console.WriteLine((char)i + " " + (int)count_table[i]);
+			}
+		}
+		else
+		{
+			Console.WriteLine("File '" + ival + "' not found. Exiting     now...");
 			Environment.Exit(0);
 		}
 	}
@@ -165,13 +200,18 @@ class Program
 			program.read_sub_table();
 		}
 		
-		if (program.cflag)
+		if (program.cflag && program.pflag)
 		{
 			if (System.IO.File.Exists(program.oval))
 			{
 				System.IO.File.Delete(program.oval);
 			}
 			program.crypt();
+
+		}
+		else if (program.pflag)
+		{
+			program.count();	
 		}
 	}
 }
