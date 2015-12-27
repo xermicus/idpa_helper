@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 
 class Program
 {
@@ -69,7 +70,7 @@ class Program
 			}
 			
 			sub_table[i] = c_final;
-			Console.Write(sub_table[i]);
+			//Console.Write(sub_table[i]);
 		}
 	}
 
@@ -85,6 +86,32 @@ class Program
 	}
 
 
+	void read_sub_table()
+	{
+		if (System.IO.File.Exists(tval))
+		{
+			sub_table = new char[256];
+			string[] lines = System.IO.File.ReadAllLines(@tval);
+		
+			foreach (string line in lines)
+			{
+				sub_table[(int) line[0]] = (char) line[1];
+			}
+		}
+		else
+		{
+			Console.WriteLine("File '" + tval + "' not found. Exiting now...");
+			Environment.Exit(0);
+		}
+	}
+
+
+	void process()
+	{
+			
+	}
+
+
 	static void Main(string[] args)
 	{
 		Program program = new Program();
@@ -96,9 +123,16 @@ class Program
 			program.init_count_table();
 		}
 
-		program.init_sub_table();
+		if (program.tval == null)
+		{
+			program.init_sub_table();
+		}
+		else
+		{
+			program.read_sub_table();
+		}
 
-		Console.WriteLine("cflag: {0}, pflag: {1}, tval: {2}", program.cflag, program.pflag, program.tval);
+		//Console.WriteLine("cflag: {0}, pflag: {1}, tval: {2}", program.cflag, program.pflag, program.tval);
 
 	}
 }
