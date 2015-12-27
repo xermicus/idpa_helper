@@ -18,12 +18,28 @@ class Program
 
 	void write_help()
 	{
-		Console.WriteLine("This is the help");
+		Console.WriteLine("Usage:\tidpa_helper.exe -i input.file [OPTIONS]\n");
+		Console.WriteLine("Options:\t<-o output.file>\tInsert output into output.file\n" +
+				"\t\t<-c>\t\t\tencrypt the input file\n" +
+				"\t\t<-p>\t\t\tshow input char prevelance\n" +
+				"\t\t<-t table.file>\t\tuse custom substitution table\n");
+		Console.WriteLine("Examples:\n" +
+				"Show char prevelance of file input.txt:\n" +
+				"\tidpa_helper.exe -i input.txt -p\n\n" +
+				"Encrypt the data in input.txt randomly into out.txt\n" +
+				"\tidpa_helper.exe -i input.txt -o out.txt\n\n" +
+				"Encrypt input.txt using custom table specified in table.txt into out.txt and show char prevelance:\n" +
+				"\tidpa_helper.exe -i input.txt -o out.txt -t table.txt -p");
 	}
 
 
 	void parse_args(string[] args)
 	{
+		if (args.Length <= 1)
+		{
+			write_help();
+			Environment.Exit(1);
+		}
 		for (int i = 0; i < args.Length; i++)
 		{
 			switch (args[i])
@@ -45,6 +61,9 @@ class Program
 				case "-o":
 					try { this.oval = args[i+1]; }
 					catch { write_help(); }
+					break;
+				case "-h":
+					write_help();
 					break;
 				default:
 					break;
@@ -109,7 +128,7 @@ class Program
 		}
 		else
 		{
-			Console.WriteLine("File '" + tval + "' not found. Exiting now...");
+			Console.WriteLine("\nError: File '" + tval + "' not found. Exiting now...");
 			Environment.Exit(0);
 		}
 	}
@@ -144,7 +163,7 @@ class Program
 		}
 		else
 		{
-			Console.WriteLine("File '" + ival + "' not found. Exiting now...");
+			Console.WriteLine("\nError: File '" + ival + "' not found. Exiting now...");
 			Environment.Exit(0);
 		}
 
@@ -174,7 +193,7 @@ class Program
 		}
 		else
 		{
-			Console.WriteLine("File '" + ival + "' not found. Exiting     now...");
+			Console.WriteLine("\nError: File '" + ival + "' not found. Exiting now...");
 			Environment.Exit(0);
 		}
 	}
@@ -211,7 +230,6 @@ class Program
 				System.IO.File.Delete(program.oval);
 			}
 			program.crypt();
-
 		}
 	}
 }
