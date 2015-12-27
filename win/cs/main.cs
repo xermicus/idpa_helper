@@ -27,9 +27,9 @@ class Program
 				"Show char prevelance of file input.txt:\n" +
 				"\tidpa_helper.exe -i input.txt -p\n\n" +
 				"Encrypt the data in input.txt randomly into out.txt\n" +
-				"\tidpa_helper.exe -i input.txt -o out.txt\n\n" +
+				"\tidpa_helper.exe -i input.txt -c -o out.txt\n\n" +
 				"Encrypt input.txt using custom table specified in table.txt into out.txt and show char prevelance:\n" +
-				"\tidpa_helper.exe -i input.txt -o out.txt -t table.txt -p");
+				"\tidpa_helper.exe -i input.txt -c -o out.txt -t table.txt -p");
 	}
 
 
@@ -138,7 +138,7 @@ class Program
 	{
 	        if (System.IO.File.Exists(ival))
 		{
-			string input = System.IO.File.ReadAllText(@ival);
+			string input = System.IO.File.ReadAllText(@ival).ToLower();
 
 			for (int i = 0; i < input.Length; i++)
 			{
@@ -181,7 +181,7 @@ class Program
 	{
 		if (System.IO.File.Exists(ival))
                 {
-	                string input = System.IO.File.ReadAllText(@ival);
+	                string input = System.IO.File.ReadAllText(@ival).ToLower();
 			for (int i = 0; i < input.Length; i++)
 			{
 				count_table[(int)input[i]]++;
