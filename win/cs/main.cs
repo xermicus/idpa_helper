@@ -60,12 +60,12 @@ class Program
 		for (int i = 0; i < sub_table.Length; i++)
 		{
 			char c_final = (char)i;
-			if (i >= c_min && i < c_max)
+			if (i >= c_min && i <= c_max)
 			{
 				bool hit = false;	
 				do
 				{
-					c_final = (char)rnd.Next((int)c_min, (int)c_max);
+					c_final = (char)rnd.Next((int)c_min, (int)c_max+1);
 					hit = false;
 					for (int j = (int) c_min; j < (int) i; j++)
 					{
@@ -126,7 +126,7 @@ class Program
 
 			for (int i = 0; i < input.Length; i++)
 			{
-				Console.Write(sub_table[(int) input[i]]);			
+				Console.Write(sub_table[(int) input[i]]);
 			}
 		}
 		else
