@@ -189,6 +189,10 @@ class Program
 		if (program.pflag)
 		{
 			program.init_count_table();
+			if (!program.cflag)
+			{
+				program.count();
+			}
 		}
 
 		if (program.tval == null)
@@ -208,10 +212,6 @@ class Program
 			}
 			program.crypt();
 
-		}
-		else if (program.pflag)
-		{
-			program.count();	
 		}
 	}
 }
