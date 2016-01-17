@@ -118,7 +118,7 @@ class Program
 	{
 		if (System.IO.File.Exists(tval))
 		{
-			sub_table = new char[256];
+			init_sub_table();
 			string[] lines = System.IO.File.ReadAllLines(@tval);
 		
 			foreach (string line in lines)
@@ -187,18 +187,20 @@ class Program
 				count_table[(int)input[i]]++;
 			}
 			
-			string[] sorted = new string[256];
+			string[,] sorted = new string[256, 2];
 			for (int i = (int)c_min; i<=(int)c_max; i++)
 			{
-				sorted[i] = (int)count_table[i] + " " + (char)i;
+				sorted[i,0]  = ""+count_table[i];
+				sorted[i,1] = ""+i;
 			}
 			Array.Sort(sorted);
-			for (int i = 0; i < 256; i++) {
+			
+			/*for (int i = 0; i < 256; i++) {
 				if (sorted[i] != null)
 				{
-					Console.WriteLine(sorted[i]);
+					//Console.WriteLine(sorted[i]);
 				}
-			}
+			}*/
 		}
 		else
 		{
