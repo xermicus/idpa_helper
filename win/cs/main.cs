@@ -186,21 +186,6 @@ class Program
 			{
 				count_table[(int)input[i]]++;
 			}
-			
-			string[,] sorted = new string[256, 2];
-			for (int i = (int)c_min; i<=(int)c_max; i++)
-			{
-				sorted[i,0]  = ""+count_table[i];
-				sorted[i,1] = ""+i;
-			}
-			Array.Sort(sorted);
-			
-			/*for (int i = 0; i < 256; i++) {
-				if (sorted[i] != null)
-				{
-					//Console.WriteLine(sorted[i]);
-				}
-			}*/
 		}
 		else
 		{
