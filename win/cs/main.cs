@@ -181,10 +181,19 @@ class Program
 	{
 		if (System.IO.File.Exists(ival))
                 {
+			sub_table = new char[256];
+			for (int i = 0; i < sub_table.Length; i++)
+			{
+				sub_table[i]=(char)i;
+			}
 	                string input = System.IO.File.ReadAllText(@ival).ToLower();
 			for (int i = 0; i < input.Length; i++)
 			{
 				count_table[(int)input[i]]++;
+			}
+			for (int i = (int)c_min; i<=(int)c_max; i++)
+			{
+				Console.WriteLine((char)sub_table[i] + " " + (int)count_table[i]);
 			}
 		}
 		else
